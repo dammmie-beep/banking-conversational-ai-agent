@@ -1,0 +1,25 @@
+# .gitignore
+
+# Virtual environment
+venv/
+
+# Model files (too large for GitHub)
+models/*.gguf
+models/minilm/
+
+# Logs
+agent.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables
+.env
+
+Data files (optional - remove these lines if you want to include them)
+data/banking_data.xlsx
+data/products.txt

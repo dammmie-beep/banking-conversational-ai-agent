@@ -1,0 +1,8 @@
+flask
+openpyxl
+pandas
+faiss-cpu
+sentence-transformers
+llama-cpp-python
+python-dotenv
+numpy
