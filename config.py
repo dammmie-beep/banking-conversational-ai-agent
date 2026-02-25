@@ -5,7 +5,8 @@ class Config:
     # Paths
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_PATH = os.path.join(BASE_DIR, "models", "smollm2-1.7b-instruct-q4_k_m.gguf")
-    EXCEL_PATH = os.path.join(BASE_DIR, "data", "Globus_AI_Engr_Interview_Data.xlsx")
+    # EXCEL_PATH = os.path.join(BASE_DIR, "data", "Globus_AI_Engr_Interview_Data.xlsx")
+    DB_PATH = os.path.join(BASE_DIR, "data", "banking.db")
     PRODUCTS_PATH = os.path.join(BASE_DIR, "data", "product_Information.txt")
 
     # LLM settings

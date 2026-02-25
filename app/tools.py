@@ -71,8 +71,15 @@ def execute_tool(tool_name: str, args: dict) -> str:
         
         return json.dumps(formatted, default=str)
 
+    # elif tool_name == "block_card":
+    #     result = data_loader.block_card(args["account_no"])
+    #     return json.dumps(result)
+    
     elif tool_name == "block_card":
-        result = data_loader.block_card(args["card_id"])
+        result = data_loader.block_card(
+            args["card_issuer"],
+            args["account_no"]
+        )
         return json.dumps(result)
 
     return "Unknown tool."
