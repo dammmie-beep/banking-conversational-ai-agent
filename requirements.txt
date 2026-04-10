@@ -6,3 +6,4 @@ sentence-transformers
 llama-cpp-python
 python-dotenv
 numpy
+huggingface-hub

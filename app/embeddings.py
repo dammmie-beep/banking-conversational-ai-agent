@@ -66,6 +66,7 @@ class VectorStore:
 
         results = []
         for score, idx in zip(scores[0], indices[0]):
+            log(f"[VectorStore] score={float(score):.4f} idx={idx}")
             if idx < len(self.texts) and float(score) >= min_score:
                 results.append(self.texts[idx])
 
@@ -73,10 +74,34 @@ class VectorStore:
 
 
 def chunk_text(text: str, chunk_size: int = 300, overlap: int = 50) -> List[str]:
-    words = text.split()
-    chunks = []
-    for i in range(0, len(words), chunk_size - overlap):
-        chunk = " ".join(words[i:i + chunk_size])
-        if chunk:
-            chunks.append(chunk)
+    """
+    Split text on blank-line paragraph boundaries so that product entries
+    (description + features + benefits) stay together in one chunk.
+    Falls back to word-count splitting only for very long paragraphs.
+    """
+    import re
+    paras = [p.strip() for p in re.split(r'\n\s*\n', text) if p.strip()]
+
+    chunks: List[str] = []
+    buffer: List[str] = []
+    buffer_words = 0
+
+    for para in paras:
+        para_words = len(para.split())
+        # If adding this paragraph would exceed the chunk size, flush buffer first
+        if buffer_words + para_words > chunk_size and buffer:
+            chunks.append("\n\n".join(buffer))
+            # Keep last paragraph as overlap context
+            if overlap > 0:
+                buffer = [buffer[-1]]
+                buffer_words = len(buffer[0].split())
+            else:
+                buffer = []
+                buffer_words = 0
+        buffer.append(para)
+        buffer_words += para_words
+
+    if buffer:
+        chunks.append("\n\n".join(buffer))
+
     return chunks

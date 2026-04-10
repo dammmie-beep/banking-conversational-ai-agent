@@ -17,7 +17,11 @@ PRODUCT_KEYWORDS = [
     "loan", "savings", "investment", "product", "interest rate",
     "mortgage", "treasury", "bonds", "overdraft",
     "kiddies", "domiciliary", "current account", "non resident",
-    "fixed deposit", "savings account"
+    "fixed deposit", "savings account", "commercial paper",
+    "money market", "debit card", "vehicle loan", "business loan",
+    "personal loan", "salary advance", "home extension", "working capital",
+    "benefit", "features of", "what is a", "tell me about", "available product",
+    "available loan", "available saving", "available investment",
 ]
 
 ACCOUNT_NO_PATTERN = r"\b\d{6,12}\b"

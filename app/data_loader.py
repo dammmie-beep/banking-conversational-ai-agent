@@ -56,10 +56,14 @@ class DataLoader:
         finally:
             conn.close()
 
-    def block_card(self, card_issuer: str, account_no: str):
+    def block_card(self, card_issuer: str, account_no: str, session_blocked: set = None):
+        """
+        Validates that the card exists and is not already blocked.
+        Does NOT write to the database — blocking is session-only so state
+        resets when the session ends.
+        """
         conn = self._get_conn()
         try:
-            # Check current status first
             cursor = conn.execute(
                 """SELECT * FROM Cards
                    WHERE Account_No = ? AND Card_Issuer = ?""",
@@ -70,20 +74,15 @@ class DataLoader:
             if not card:
                 return {"success": False, "message": "Card not found."}
 
-            if str(card["Status"]).lower() == "blocked":
+            db_blocked = str(card["Status"]).lower() == "blocked"
+            session_blocked = session_blocked or set()
+            if db_blocked or card_issuer in session_blocked:
                 return {"success": False, "message": "Card is already blocked."}
-
-            # Update status in database
-            conn.execute(
-                """UPDATE Cards SET Status = 'Blocked'
-                   WHERE Account_No = ? AND Card_Issuer = ?""",
-                (account_no, card_issuer)
-            )
-            conn.commit()
 
             return {
                 "success": True,
-                "message": f"{card_issuer} {card['Card_Type']} card has been successfully blocked."
+                "message": f"{card_issuer} {card['Card_Type']} card has been successfully blocked.",
+                "card_type": card["Card_Type"],
             }
         finally:
             conn.close()
