@@ -1,6 +1,6 @@
 # Bank Conversational AI Agent
 
-A fully offline conversational AI agent for Globus Bank customer service. Built with Flask, llama.cpp, and a small embedding model — no internet connection required after initial setup.
+A fully offline conversational AI agent for Bank customer service. Built with Flask, llama.cpp, and a small embedding model — no internet connection required after initial setup.
 
 ---
 
